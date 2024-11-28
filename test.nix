@@ -1,26 +1,14 @@
 with builtins;
 let
-  # Let bindings referring to each other is a nice way of building up complex functions.
-  # But let's say I want to import this isInt function in many places.
-  # How can I make a "nested function code" like this re-usable?
-  pkgs = import <nixpkgs> { };
-  cast = s: pkgs.lib.strings.toInt s;
-  tryCast = t: tryEval (cast t);
-  isDigit = c: (tryCast c).success && stringLength c == 1;
-  filterForDigits = l: filter isDigit l;
-  first = l: elemAt l 0;
-  last = l: (elemAt l) ((length l) - 1);
-  firstDigit = l: first (filterForDigits l);
-  lastDigit = l: last (filterForDigits l);
+  f = import ./functions.nix;
 in
-# TODO: split a string into characters
-assert isDigit "0" == true;
-assert isDigit "r" == false;
-assert isDigit "3" == true;
-assert isDigit "_" == false;
-assert isDigit "33" == false;
+assert f.isDigit "0" == true;
+assert f.isDigit "r" == false;
+assert f.isDigit "3" == true;
+assert f.isDigit "_" == false;
+assert f.isDigit "33" == false;
 assert
-  filterForDigits ([
+  f.filterForDigits ([
     "1"
     "r"
     "."
@@ -34,7 +22,7 @@ assert
     "6"
   ];
 assert
-  firstDigit ([
+  f.firstDigit ([
     "r"
     "f"
     "3"
@@ -43,7 +31,7 @@ assert
     "e"
   ]) == "3";
 assert
-  lastDigit ([
+  f.lastDigit ([
     "r"
     "f"
     "3"
