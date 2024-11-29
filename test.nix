@@ -1,12 +1,15 @@
 with builtins;
 let
+  t = import ./print_test.nix;
   f = import ./functions.nix;
+  testResult =
+    { name, testFunc }: if (tryEval (testFunc).success) then "SUCCESS:" + name else "FAILED:  " + name;
 in
 assert f.isDigit "0" == true;
-assert f.isDigit "r" == false;
+assert f.isDigit "!" == false;
 assert f.isDigit "3" == true;
 assert f.isDigit "_" == false;
-assert f.isDigit "33" == false;
+assert f.isDigit "r" == false;
 assert
   f.filterForDigits ([
     "1"
@@ -14,8 +17,8 @@ assert
     "."
     "5"
     "6"
-    "aasd"
-    "5488"
+    "a"
+    "q"
   ]) == [
     "1"
     "5"
@@ -26,7 +29,7 @@ assert
     "r"
     "f"
     "3"
-    "dfs"
+    "d"
     "7"
     "e"
   ]) == "3";
@@ -35,8 +38,9 @@ assert
     "r"
     "f"
     "3"
-    "dfs"
+    "d"
     "7"
     "e"
   ]) == "7";
+assert f.combineDigits "rfsun3daojdsauhdas7dsa" == 37;
 true
