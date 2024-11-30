@@ -43,4 +43,10 @@ assert
     "e"
   ]) == "7";
 assert f.combineDigits "rfsun3daojdsauhdas7dsa" == 37;
+assert
+  f.sumLines [
+    "1dashdsa2"
+    "dsijd3jsd2fgd"
+    "dsakj7dsad"
+  ] == 12 + 32 + 77;
 true

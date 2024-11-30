@@ -13,6 +13,9 @@ let
   findLastDigit = s: lastDigit (splitIntoChars s);
   strFromDigits = s: (findFirstDigit s) + (findLastDigit s);
   combineDigits = s: pkgs.lib.strings.toInt (strFromDigits s);
+  sum = x: y: x + y;
+  reduce = foldl';
+  sumLines = lines: reduce sum 0 (map combineDigits lines);
 in
 {
   isDigit = isDigit;
@@ -20,4 +23,5 @@ in
   firstDigit = firstDigit;
   lastDigit = lastDigit;
   combineDigits = combineDigits;
+  sumLines = sumLines;
 }
