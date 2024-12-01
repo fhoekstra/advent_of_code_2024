@@ -8,7 +8,10 @@ let
     3   9
     3   3
   '';
-  result = f.processStr example;
+  example-result = f.processStr example;
+  example-file-result = f.processFile ./example-input.txt;
+  result = f.processFile ./puzzle-input.txt;
 in
-assert result == 11;
+assert example-result == 11;
+assert example-file-result == example-result;
 result
