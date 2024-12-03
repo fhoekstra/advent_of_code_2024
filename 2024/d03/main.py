@@ -53,13 +53,13 @@ def part2_process_content(content: str) -> int:
         do_match = do_pattern_rev.search(content[idx::-1])
         dont_match = dont_pattern_rev.search(content[idx::-1])
 
-        if dont_match is None:  # No don't found, we are at the first enabled range
+        is_do_closer_than_dont = lambda: do_match.start() < dont_match.start()
+
+        if dont_match is None:
             return True
-        if do_match is None:  # Don't found, but no do
+        if do_match is None:
             return False
-        return (
-            do_match.start() < dont_match.start()
-        )  # Is do closer than don't in the preceding content?
+        return is_do_closer_than_dont()
 
     filtered_pair_matches = filter(is_in_enabled_range, pair_matches)
     return sum(map(product_from_match, filtered_pair_matches))
