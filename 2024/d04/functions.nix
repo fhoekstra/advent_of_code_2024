@@ -80,10 +80,15 @@ let
               adjacent = (findMasInDirOrOpposite 1 0) && (findMasInDirOrOpposite 0 1);
             };
           in
-          trace (findMasInDir 1 0) lst.count (x: x == true) [
-            xMases.diagonal
-            xMases.adjacent
-          ];
+          if
+            lst.any (x: x == true) [
+              xMases.diagonal
+              xMases.adjacent
+            ]
+          then
+            1
+          else
+            0;
     in
     # trace (elemAt (elemAt (imap2D countXmasesFromA g) 0) 1) 1;
     sum2D (imap2D countXmasesFromA g);

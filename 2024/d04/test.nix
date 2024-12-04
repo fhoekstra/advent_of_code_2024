@@ -27,6 +27,4 @@ assert
   ]) == 45;
 assert example-p1 == 18;
 assert example-p2 == 9;
-''
-  Result part 1: ${toString result-p1}
-  Result part 2: ${toString result-p2}''
+''Result part 1: ${toString result-p1}'' + '';  Result part 2: ${toString result-p2}''
