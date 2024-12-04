@@ -43,6 +43,40 @@ let
       ) row
     );
 
+  countXmasesp2 =
+    g:
+    let
+      gidx =
+        x: y:
+        if ((x < 0) || (x >= width)) then
+          " "
+        else if ((y < 0) || (y >= height)) then
+          " "
+        else
+          elemAt (elemAt g y) x;
+      height = length g;
+      width = length (elemAt g 0);
+
+      countXmasesFromA =
+        args:
+        let
+          findMasInDir =
+            dx: dy:
+            isMas (
+              args
+              // {
+                dx = dx;
+                dy = dy;
+                x = args.x - dx;
+                y = args.y - dy;
+              }
+            );
+          isMas = 1;
+        in
+        "countXmasesFromA";
+    in
+    "countXmasesInWholeGrid";
+
   countXmasesp1 =
     g:
     let
@@ -67,7 +101,7 @@ let
               // {
                 dx = dx;
                 dy = dy;
-                xmasIdx = 0;
+                wordIdx = 0;
               }
             );
         in
@@ -82,48 +116,48 @@ let
           (findXmasInDir (-1) 1)
         ];
 
-      isXmas =
-        args:
+      isXmas = isWord XMAS;
+      isWord =
+        wordAsList:
         let
-          searchFinished = (args.xmasIdx == 3) && (args.c == (elemAt XMAS args.xmasIdx));
-        in
-        if searchFinished then 1 else (searchFurther args);
+          thisWord = wordAsList;
+          lastIndex = (length thisWord) - 1;
+          isThisWord =
+            args:
+            let
+              searchFinished = (args.wordIdx == lastIndex) && (args.c == (elemAt thisWord args.wordIdx));
+            in
+            if searchFinished then 1 else (searchFurther args);
 
-      searchFurther =
-        {
-          c,
-          x,
-          y,
-          xmasIdx,
-          dx,
-          dy,
-        }:
-        if c == (elemAt XMAS xmasIdx) then
-          let
-            newx = x + dx;
-            newy = y + dy;
-            newc = gidx newx newy;
-          in
-          isXmas {
-            c = newc;
-            x = newx;
-            y = newy;
-            xmasIdx = xmasIdx + 1;
-            dx = dx;
-            dy = dy;
-          }
-        else
-          0;
+          searchFurther =
+            {
+              c,
+              x,
+              y,
+              wordIdx,
+              dx,
+              dy,
+            }:
+            if c == (elemAt thisWord wordIdx) then
+              let
+                newx = x + dx;
+                newy = y + dy;
+                newc = gidx newx newy;
+              in
+              isThisWord {
+                c = newc;
+                x = newx;
+                y = newy;
+                wordIdx = wordIdx + 1;
+                dx = dx;
+                dy = dy;
+              }
+            else
+              0;
+        in
+        isThisWord;
 
     in
-    # trace (isXmas {
-    #   x = 5;
-    #   y = 0;
-    #   dx = 1;
-    #   dy = 0;
-    #   c = "X";
-    #   xmasIdx = 0;
-    # }) 1;
     sum2D (imap2D countXmasesFromSpot g);
   sum2D = lines: sum (map sum lines);
 in
