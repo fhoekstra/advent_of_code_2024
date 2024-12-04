@@ -27,7 +27,23 @@ let
       counts = map count_occurrences_in_line g;
     in
     sum counts;
-  countXmases =
+
+  imap2D =
+    func:
+    lst.imap0 (
+      y: row:
+      lst.imap0 (
+        x: char:
+        # trace { x = x; y = y;}
+        func {
+          c = char;
+          x = x;
+          y = y;
+        }
+      ) row
+    );
+
+  countXmasesp1 =
     g:
     let
       gidx =
@@ -41,20 +57,6 @@ let
       height = length g;
       width = length (elemAt g 0);
 
-      imap2D =
-        func:
-        lst.imap0 (
-          y: row:
-          lst.imap0 (
-            x: char:
-            # trace { x = x; y = y;}
-            func {
-              c = char;
-              x = x;
-              y = y;
-            }
-          ) row
-        ) g;
       countXmasesFromSpot =
         args:
         let
@@ -122,11 +124,11 @@ let
     #   c = "X";
     #   xmasIdx = 0;
     # }) 1;
-    sum2D (imap2D countXmasesFromSpot);
+    sum2D (imap2D countXmasesFromSpot g);
   sum2D = lines: sum (map sum lines);
 in
 {
   countXes = path: countXes (parse path);
   sum2D = sum2D;
-  part1 = path: countXmases (parse path);
+  part1 = path: countXmasesp1 (parse path);
 }
