@@ -3,13 +3,7 @@ with import <nixpkgs> { };
 with {
   str = lib.strings;
   lst = lib.lists;
-  sum = foldl' (
-    a: b:
-    trace [
-      a
-      b
-    ] (a + b)
-  ) 0;
+  sum = foldl' (a: b: (a + b)) 0;
   isX = c: c == "X";
   XMAS = [
     "X"
@@ -53,17 +47,12 @@ let
           y: row:
           lst.imap0 (
             x: char:
-            trace
-              {
-                x = x;
-                y = y;
-              }
-              func
-              {
-                c = char;
-                x = x;
-                y = y;
-              }
+            # trace { x = x; y = y;}
+            func {
+              c = char;
+              x = x;
+              y = y;
+            }
           ) row
         ) g;
       countXmasesFromSpot =
