@@ -81,38 +81,14 @@ let
             );
         in
         sum [
-          (findXmasInDir {
-            dx = 1;
-            dy = 0;
-          })
-          (findXmasInDir {
-            dx = -1;
-            dy = 0;
-          })
-          (findXmasInDir {
-            dx = 0;
-            dy = 1;
-          })
-          (findXmasInDir {
-            dx = 0;
-            dy = -1;
-          })
-          (findXmasInDir {
-            dx = 1;
-            dy = 1;
-          })
-          (findXmasInDir {
-            dx = 1;
-            dy = -1;
-          })
-          (findXmasInDir {
-            dx = -1;
-            dy = -1;
-          })
-          (findXmasInDir {
-            dx = -1;
-            dy = 1;
-          })
+          (findXmasInDir 1 0)
+          (findXmasInDir (-1) 0)
+          (findXmasInDir 0 1)
+          (findXmasInDir 0 (-1))
+          (findXmasInDir 1 1)
+          (findXmasInDir 1 (-1))
+          (findXmasInDir (-1) (-1))
+          (findXmasInDir (-1) 1)
         ];
 
       isXmas =
