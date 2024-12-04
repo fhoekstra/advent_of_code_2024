@@ -124,7 +124,6 @@ let
         else
           0;
 
-      sum2D = lines: sum (map sum lines);
     in
     # trace (isXmas {
     #   x = 5;
@@ -135,8 +134,10 @@ let
     #   xmasIdx = 0;
     # }) 1;
     sum2D (imap2D countXmasesFromSpot);
+  sum2D = lines: sum (map sum lines);
 in
 {
   countXes = path: countXes (parse path);
+  sum2D = sum2D;
   part1 = path: countXmases (parse path);
 }

@@ -7,6 +7,24 @@ in
 # result-p2 = f.part2 ./puzzle-input.txt;
 
 assert f.countXes ./example-input.txt == 19;
+assert
+  (f.sum2D [
+    [
+      1
+      2
+      3
+    ]
+    [
+      4
+      5
+      6
+    ]
+    [
+      7
+      8
+      9
+    ]
+  ]) == 45;
 assert example-p1 == 18;
 # assert example-p2 == 4;
 ''
