@@ -75,20 +75,9 @@ let
               );
             findMasInDirOrOpposite = dx: dy: (findMasInDir dx dy) || (findMasInDir (-dx) (-dy));
             isMas = isWord MAS g;
-            xMases = {
-              diagonal = (findMasInDirOrOpposite 1 1) && (findMasInDirOrOpposite 1 (-1));
-              adjacent = (findMasInDirOrOpposite 1 0) && (findMasInDirOrOpposite 0 1);
-            };
+            isXMas = (findMasInDirOrOpposite 1 1) && (findMasInDirOrOpposite 1 (-1));
           in
-          if
-            lst.any (x: x == true) [
-              xMases.diagonal
-              xMases.adjacent
-            ]
-          then
-            1
-          else
-            0;
+          if isXMas then 1 else 0;
     in
     # trace (elemAt (elemAt (imap2D countXmasesFromA g) 0) 1) 1;
     sum2D (imap2D countXmasesFromA g);
