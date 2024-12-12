@@ -83,15 +83,17 @@ let
       (map getMiddleElem)
       sum
     ];
+  part2 =
+    { rules, updates }:
+    lib.pipe updates [
+      (filter (update: !(isOrderedUpdate rules update)))
+      (map (sortUpdate rules))
+      (map getMiddleElem)
+      sum
+    ];
   isOrderedUpdate =
     rules: pages:
     let
-      getMatchingFromRules =
-        rulesMap: e:
-        lib.pipe rulesMap [
-          (filter (p: (getElem 0 p) == e))
-          (map (getElem 1))
-        ];
       isOrdered =
         idx: el:
         let
@@ -109,8 +111,31 @@ let
         !(rightSideIsNotOrdered || leftSideIsNotOrdered);
     in
     all isTrue (lst.imap0 isOrdered pages);
+  getMatchingFromRules =
+    rulesMap: e:
+    lib.pipe rulesMap [
+      (filter (p: (getElem 0 p) == e))
+      (map (getElem 1))
+    ];
   getMiddleElem = l: elemAt l ((length l) / 2);
+  sortUpdate =
+    rules: pages:
+    let
+      appearingInRules = p: any (pageinrules: p == pageinrules) (lst.flatten rules.atob);
+      pagesAppearingInRules = filter appearingInRules pages;
+      otherPages = filter (p: !(appearingInRules p)) pages;
+      sortedRulesPages = sort comparator pagesAppearingInRules;
+      comparator =
+        left: right:
+        let
+          thingsThatShouldGoAfterLeft = getMatchingFromRules rules.btoa left;
+        in
+        (elem right thingsThatShouldGoAfterLeft);
+    in
+    # trace (sortedRulesPages)
+    (sortedRulesPages ++ otherPages);
 in
 {
   part1 = path: part1 (parse path);
+  part2 = path: part2 (parse path);
 }
